@@ -17166,7 +17166,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["favicons-webpack-plugin", [
         ["virtual:856cbc387bd6a5b328b655b857152baf75a21c4d4cb561b33a64930a7961ad177fffb3c809e7488d3d722ed1be70afbfffaf1fa75358744f15f8fb208e6f28f3#https://github.com/Creatiwity/favicons-webpack-plugin.git#commit=0872de414061baaad0a2853c77ae75bc38b8bbbf", {
-          "packageLocation": "./.yarn/$$virtual/favicons-webpack-plugin-virtual-49cbed385b/0/cache/favicons-webpack-plugin-https-8c2eb73243-00a68731e7.zip/node_modules/favicons-webpack-plugin/",
+          "packageLocation": "./.yarn/$$virtual/favicons-webpack-plugin-virtual-49cbed385b/0/cache/favicons-webpack-plugin-https-6ad4b756ee-84469f9965.zip/node_modules/favicons-webpack-plugin/",
           "packageDependencies": [
             ["favicons-webpack-plugin", "virtual:856cbc387bd6a5b328b655b857152baf75a21c4d4cb561b33a64930a7961ad177fffb3c809e7488d3d722ed1be70afbfffaf1fa75358744f15f8fb208e6f28f3#https://github.com/Creatiwity/favicons-webpack-plugin.git#commit=0872de414061baaad0a2853c77ae75bc38b8bbbf"],
             ["@types/webpack", null],
@@ -19227,7 +19227,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["gatsby-remark-table-of-contents", [
         ["https://github.com/arcanis/gatsby-remark-table-of-contents.git#commit=d2c703bb06801ae992513f14599cde84d03a4aac", {
-          "packageLocation": "./.yarn/cache/gatsby-remark-table-of-contents-https-6425034f06-59729bf6c1.zip/node_modules/gatsby-remark-table-of-contents/",
+          "packageLocation": "./.yarn/cache/gatsby-remark-table-of-contents-https-358f7d73cf-223d5251fb.zip/node_modules/gatsby-remark-table-of-contents/",
           "packageDependencies": [
             ["gatsby-remark-table-of-contents", "https://github.com/arcanis/gatsby-remark-table-of-contents.git#commit=d2c703bb06801ae992513f14599cde84d03a4aac"],
             ["js-yaml", "npm:3.13.1"],

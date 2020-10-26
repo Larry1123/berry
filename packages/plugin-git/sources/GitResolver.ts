@@ -1,17 +1,31 @@
 import {Resolver, ResolveOptions, MinimalResolveOptions} from '@yarnpkg/core';
 import {miscUtils, structUtils}                          from '@yarnpkg/core';
 import {LinkType}                                        from '@yarnpkg/core';
-import {Descriptor, Locator, Manifest}                   from '@yarnpkg/core';
+import {Descriptor, Locator, Manifest, Project}          from '@yarnpkg/core';
 
+import {Hooks} from                                      './index'
 import * as gitUtils                                     from './gitUtils';
 
 export class GitResolver implements Resolver {
+  #gitHandledHostedRepositoryPatterns: Array<RegExp> | undefined
+
+  protected getHandledHostedRepositoryPatterns(project: Project) {
+    if (!this.#gitHandledHostedRepositoryPatterns) {
+      this.#gitHandledHostedRepositoryPatterns = []
+      project.configuration.triggerHookSync((hooks: Hooks) => {
+        return hooks.addHandledHostedRepository
+      }, (regExp) => this.#gitHandledHostedRepositoryPatterns?.push(regExp))
+    }
+  }
+
   supportsDescriptor(descriptor: Descriptor, opts: MinimalResolveOptions) {
-    return gitUtils.isGitUrl(descriptor.range);
+    this.getHandledHostedRepositoryPatterns(opts.project)
+    return gitUtils.isGitUrl(descriptor.range, this.#gitHandledHostedRepositoryPatterns);
   }
 
   supportsLocator(locator: Locator, opts: MinimalResolveOptions) {
-    return gitUtils.isGitUrl(locator.reference);
+    this.getHandledHostedRepositoryPatterns(opts.project)
+    return gitUtils.isGitUrl(locator.reference, this.#gitHandledHostedRepositoryPatterns);
   }
 
   shouldPersistResolution(locator: Locator, opts: MinimalResolveOptions) {

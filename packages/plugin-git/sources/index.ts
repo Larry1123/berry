@@ -15,7 +15,7 @@ export interface Hooks {
    *
    * @param addGitHostedRepository call this function to add a pattern to be excluded
    */
-  addHandledHostedRepository?: (addHandledHostedRepository: (regExp: RegExp) => void) => Promise<void>,
+  addHandledHostedRepository?: (addHandledHostedRepository: (regExp: RegExp) => void) => void,
 }
 
 declare module '@yarnpkg/core' {

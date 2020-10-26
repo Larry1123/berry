@@ -12104,7 +12104,7 @@ __metadata:
     lodash: ^4.17.10
   peerDependencies:
     webpack: ^1.13.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
-  checksum: 00a68731e756084336ffb107f4d7ec761324ac3a3058c1a39d93a4105a8fca24f80d075e9fed9e242b4ebb21d07c6604c9b13a5a3fefea485e74ba4da7f516ab
+  checksum: 84469f99657c6c785bef270e3f86e7d0e28b8fb0c228782f46eeb3f33fccbe3dd985bf245b21b7cba74da12be30d50b9b2973dca62be67740b51fcf257aea42a
   languageName: node
   linkType: hard
 
@@ -13382,7 +13382,7 @@ fsevents@^1.2.7:
   dependencies:
     js-yaml: ^3.13.1
     mdast-util-toc: ^4.2.0
-  checksum: 59729bf6c13366678e928e3906840ff5ed3b54cba52115b6de9ac532ef171a08c0ce26ce2dd92aa55fe2d89f3a93118777925e8250cb46208bf3e8b607f481ac
+  checksum: 223d5251fb7465278eda3d5e1b7271f2591009a577bb51bad035eb618330d2d47442319fd7c882bebf8b94e0998ec4e50672b24f75a640aae8e9816206a8aa68
   languageName: node
   linkType: hard
 

@@ -1,5 +1,5 @@
 import {Fetcher, FetchOptions, MinimalFetchOptions, FetchResult} from '@yarnpkg/core';
-import {Locator}                                                 from '@yarnpkg/core';
+import {Locator, Project}                                        from '@yarnpkg/core';
 import {miscUtils, scriptUtils, structUtils, tgzUtils}           from '@yarnpkg/core';
 import {PortablePath, ppath, xfs}                                from '@yarnpkg/fslib';
 
@@ -7,8 +7,20 @@ import * as gitUtils                                             from './gitUtil
 import {Hooks}                                                   from './index';
 
 export class GitFetcher implements Fetcher {
+  #gitHandledHostedRepositoryPatterns: Array<RegExp> | undefined
+
+  protected getHandledHostedRepositoryPatterns(project: Project) {
+    if (!this.#gitHandledHostedRepositoryPatterns) {
+      this.#gitHandledHostedRepositoryPatterns = []
+      project.configuration.triggerHookSync((hooks: Hooks) => {
+        return hooks.addHandledHostedRepository
+      }, (regExp) => this.#gitHandledHostedRepositoryPatterns?.push(regExp))
+    }
+  }
+
   supports(locator: Locator, opts: MinimalFetchOptions) {
-    return gitUtils.isGitUrl(locator.reference);
+    this.getHandledHostedRepositoryPatterns(opts.project)
+    return gitUtils.isGitUrl(locator.reference, this.#gitHandledHostedRepositoryPatterns);
   }
 
   getLocalPath(locator: Locator, opts: FetchOptions) {

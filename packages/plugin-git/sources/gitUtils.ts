@@ -20,16 +20,6 @@ const gitPatterns = [
   /^(?:git\+)?https?:[^#]+\/[^#]+(?:\.git)(?:#.*)?$/,
 
   /^git@[^#]+\/[^#]+\.git(?:#.*)?$/,
-
-  /**
-   * @deprecated
-   */
-  /^(?:github:|https:\/\/github\.com\/)?(?!\.{1,2}\/)([a-zA-Z._0-9-]+)\/(?!\.{1,2}(?:#|$))([a-zA-Z._0-9-]+?)(?:\.git)?(?:#.*)?$/,
-  // GitHub `/tarball/` URLs
-  /**
-   * @deprecated
-   */
-  /^https:\/\/github\.com\/(?!\.{1,2}\/)([a-zA-Z0-9._-]+)\/(?!\.{1,2}(?:#|$))([a-zA-Z0-9._-]+?)\/tarball\/(.+)?$/,
 ];
 
 export enum TreeishProtocols {
@@ -42,8 +32,8 @@ export enum TreeishProtocols {
 /**
  * Determines whether a given url is a valid github git url via regex
  */
-export function isGitUrl(url: string): boolean {
-  return url ? gitPatterns.some(pattern => !!url.match(pattern)) : false;
+export function isGitUrl(url: string, extraPatterns: Array<RegExp> = []): boolean {
+  return url ? [...gitPatterns, ...extraPatterns].some(pattern => !!url.match(pattern)) : false;
 }
 
 export type RepoUrlParts = {
@@ -134,6 +124,8 @@ export function splitRepoUrl(url: string): RepoUrlParts {
 }
 
 export function normalizeRepoUrl(url: string, {git = false}: {git?: boolean} = {}) {
+  url = url.replace(/^(git[+:])([a-zA-Z0-9._-]+):\/\/(?:([^/]+?@)?([^#]+(?:\.git)?))(#.*)?$/, `$1$2://$3$4.git$5`);
+
   // "git+https://" isn't an actual Git protocol. It's just a way to
   // disambiguate that this URL points to a Git repository.
   url = url.replace(/^git\+https:/, `https:`);

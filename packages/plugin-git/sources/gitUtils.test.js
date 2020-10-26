@@ -11,12 +11,25 @@ const VALID_PATTERNS = [
   `git+ssh://git@github.com:yarnpkg/berry.git#v2.1.1`,
   `ssh://git@github.com:yarnpkg/berry.git#v2.1.1`,
   `git+https://github.com/TooTallNate/util-deprecate#v1.0.1`,
+  `git:https://gitlab.com/TooTallNate/util-deprecate#v1.0.1`,
+  `git+https://gitlab.com/TooTallNate/util-deprecate#v1.0.1`,
   `git+https://github.com/TooTallNate/util-deprecate.git#v1.0.1`,
 ];
 
 const INVALID_PATTERNS = [
   `./.`,
   `../..`,
+  `GitHubOrg/foo-bar.js`,
+  `GitHubOrg/foo2bar.js`,
+  `GitHubOrg/foo-bar.js#hash`,
+  `GitHubOrg/foo-bar.js#commit:hash`,
+  `GitHubOrg/foo-bar.js#commit=hash`,
+  `GitHubOrg/foo-bar.js#commit=hash&workspace=foo`,
+  `GitHubOrg/foo-bar.js#tag=hello`,
+  `GitHubOrg/foo-bar.js#workspace=foo`,
+  `github:GitHubOrg/foo-bar.js`,
+  `github:GitHubOrg/foo-bar.js#hash`,
+  `https://github.com/TooTallNate/util-deprecate/tarball/b3562c2798507869edb767da869cd7b85487726d`,
 ];
 
 describe(`gitUtils`, () => {

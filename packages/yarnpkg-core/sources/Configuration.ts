@@ -1484,9 +1484,29 @@ export class Configuration {
     }
   }
 
+  triggerHookSync<U extends Array<any>, V, HooksDefinition = Hooks>(get: (hooks:  HooksDefinition) => ((...args: U) => Exclude<V, Promise<any>>) | undefined, ...args: U): void {
+    for (const plugin of this.plugins.values()) {
+      const hooks = plugin.hooks as HooksDefinition;
+      if (!hooks)
+        continue;
+
+      const hook = get(hooks);
+      if (!hook)
+        continue;
+
+      hook(...args);
+    }
+  }
+
   async triggerMultipleHooks<U extends Array<any>, V, HooksDefinition = Hooks>(get: (hooks: HooksDefinition) => ((...args: U) => V) | undefined, argsList: Array<U>): Promise<void> {
     for (const args of argsList) {
       await this.triggerHook(get, ...args);
+    }
+  }
+
+  triggerMultipleHooksSync<U extends Array<any>, V, HooksDefinition = Hooks>(get: (hooks: HooksDefinition) => ((...args: U) => Exclude<V, Promise<any>>) | undefined, argsList: Array<U>): void {
+    for (const args of argsList) {
+      this.triggerHookSync(get, ...args);
     }
   }
 
@@ -1508,6 +1528,24 @@ export class Configuration {
     return value;
   }
 
+  reduceHookSync<U extends Array<any>, V, HooksDefinition = Hooks>(get: (hooks: HooksDefinition) => ((reduced: V, ...args: U) => V) | undefined, initialValue: V, ...args: U): V {
+    let value = initialValue;
+
+    for (const plugin of this.plugins.values()) {
+      const hooks = plugin.hooks as HooksDefinition;
+      if (!hooks)
+        continue;
+
+      const hook = get(hooks);
+      if (!hook)
+        continue;
+
+      value = hook(value, ...args);
+    }
+
+    return value;
+  }
+
   async firstHook<U extends Array<any>, V, HooksDefinition = Hooks>(get: (hooks: HooksDefinition) => ((...args: U) => Promise<V>) | undefined, ...args: U): Promise<Exclude<V, void> | null> {
     for (const plugin of this.plugins.values()) {
       const hooks = plugin.hooks as HooksDefinition;
@@ -1519,6 +1557,26 @@ export class Configuration {
         continue;
 
       const ret = await hook(...args);
+      if (typeof ret !== `undefined`) {
+        // @ts-expect-error
+        return ret;
+      }
+    }
+
+    return null;
+  }
+
+  firstHookSync<U extends Array<any>, V, HooksDefinition = Hooks>(get: (hooks: HooksDefinition) => ((...args: U) => V) | undefined, ...args: U): Exclude<V, void> | null {
+    for (const plugin of this.plugins.values()) {
+      const hooks = plugin.hooks as HooksDefinition;
+      if (!hooks)
+        continue;
+
+      const hook = get(hooks);
+      if (!hook)
+        continue;
+
+      const ret = hook(...args);
       if (typeof ret !== `undefined`) {
         // @ts-expect-error
         return ret;
